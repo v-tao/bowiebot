@@ -58,3 +58,4 @@ class BowieData:
         albums = list(map(lambda album: directory + album,list(os.walk(directory))[0][1]))
         albums.sort()
         self.albums = [Album(album) for album in albums]
+        self.songs = [album.songs for album in self.albums]
