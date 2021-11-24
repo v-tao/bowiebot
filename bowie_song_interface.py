@@ -51,3 +51,10 @@ class Album:
         headline = f"{self.year:<4}: {self.title}"
         sides = "".join([f"\n>>> {side} {self.side_as_str(side)}" for side in self.sides])
         return headline + sides
+
+class BowieData:
+    def __init__(self, directory):
+        # gets the file paths for all the albums in the directory
+        albums = list(map(lambda album: directory + album,list(os.walk(directory))[0][1]))
+        albums.sort()
+        self.albums = [Album(album) for album in albums]
