@@ -28,6 +28,14 @@ class Album:
 
         self._load_songs_from_album_directory()
 
+    def get_songs(self):
+        songs = []
+
+        for side in self.sides:
+            songs += self._songs[side]
+
+        return songs
+
     def _load_songs_from_album_directory(self):
         files = list(os.walk(self.album_directory))
 
@@ -36,21 +44,25 @@ class Album:
 
             side_files = list(os.walk(self.album_directory + f"/{side}"))
 
-            self._songs[side] = [Song(self.album_directory + f"/{side}/" + song_file) for song_file in side_files[0][2]]
+            songs = [Song(self.album_directory + f"/{side}/" + song_file) for song_file in side_files[0][2]]
+            songs.sort(key=lambda x: x.track_number)
+            self._songs[side] = songs
 
         if files[0][2] != []:
             self.sides.append("No_Side")
-            self._songs['No_Side'] = [Song(self.album_directory + "/" + song_file) for song_file in files[0][2]]
+            songs = [Song(self.album_directory + "/" + song_file) for song_file in files[0][2]]
+            songs.sort(key=lambda x: x.track_number)
+            self._songs['No_Side'] = songs
 
         self.sides.sort()
 
-    def side_as_str(self, side):
+    def _side_as_str(self, side):
         return "".join([f'\n>>>>>> {song}' for song in self._songs[side]])
 
 
     def __repr__(self):
         headline = f"{self.year:<4}: {self.title}"
-        sides = "".join([f"\n>>> {side} {self.side_as_str(side)}" for side in self.sides])
+        sides = "".join([f"\n>>> {side} {self._side_as_str(side)}" for side in self.sides])
         return headline + sides
 
 class BowieData:
