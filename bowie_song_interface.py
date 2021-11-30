@@ -39,6 +39,7 @@ class Album:
             self._songs[side] = [Song(self.album_directory + f"/{side}/" + song_file) for song_file in side_files[0][2]]
 
         if files[0][2] != []:
+            self.sides.append("No_Side")
             self._songs['No_Side'] = [Song(self.album_directory + "/" + song_file) for song_file in files[0][2]]
 
         self.sides.sort()
