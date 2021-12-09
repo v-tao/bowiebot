@@ -73,6 +73,9 @@ class BowieData:
 
         self._load_albums_from_bowie_data_directory()
 
+    def get_songs(self):
+        return [song for album in self.albums for song in album.get_songs()]
+
     def _load_albums_from_bowie_data_directory(self):
         files = list(os.walk(self.bowie_data_directory))
 
