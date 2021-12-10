@@ -73,6 +73,8 @@ class BowieData:
 
         self._load_albums_from_bowie_data_directory()
 
+        self.songs = self.get_songs()
+
     def get_songs(self):
         return [song for album in self.albums for song in album.get_songs()]
 
